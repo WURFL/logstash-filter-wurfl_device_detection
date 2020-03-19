@@ -2,6 +2,8 @@
 
 This project contains a java plugin for Logstash that enriches a collection of event data with device detection data obtained via WURFL Microservice (available on AWS or Azure marketplaces).
 
+It is fully free and fully open source. The license is Apache 2.0, meaning you are pretty much free to use it however you want in whatever way.
+
 This plugin requires Java 8+, Gradle 5.x or above and has been tested with Logstash 8.0.0 and 7.6.x
 
 ## Compile the project
