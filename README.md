@@ -1,28 +1,26 @@
 ### WURFL Logstash plugin
 
-This project contains a java plugin for Logstash that enriches a collection of event data with device detection data obtained via WURFL Microservice (available on AWS or Azure marketplaces).
-
-It is fully free and fully open source. The license is Apache 2.0, meaning you are pretty much free to use it however you want in whatever way.
+This project contains a java plugin for Logstash that enriches a stream of data with device data obtained from WURFL ([through WURFL Microservice Client, as deployed in one of multiple ways](https://www.scientiamobile.com/products/wurfl-microservice/)).
 
 This plugin requires Java 8+, Gradle 5.x or above and has been tested with Logstash 8.0.0 and 7.6.x
 
 ## Compile the project
 
-From the root of the project do ` ./gradlew gem`
-A file `logstash-filter-wurfl_device_detection-x.y.z.gem`, where x.y.z version number
+From the root of the project enter ` ./gradlew gem`
+
+The compiler will create a file `logstash-filter-logstash_filter_wurfl_device_detection-x.y.z.gem`, where x.y.z version number
 is the one defined in the `VERSION` file.
 
 ## Install the plugin on logstash
 
   From the logstash installation `bin` directory execute
-  `./logstash-plugin install --local <plugin_project_home>/logstash-filter-wurfl_device_detection-x.y.z.gem`
+  `./logstash-plugin install --local <plugin_project_home>/logstash-filter-logstash_filter_wurfl_device_detection-x.y.z.gem`
   
-  Please note that this plugin requires a `stdin` plugin as specified in the sample configuration file
-  `sample_config/wurfl_filter_config_with_http_input.conf`; also note that the aforementioned file is a sample: you will want to create your own
-  production configuration file.
+  You can find a sample configuration for this plugin can be found under `sample_config/wurfl_filter_config_with_http_input`; you will want to create your own
+  production configuration file using input and output plugins of your choice.
   
 ### Example configuration - using HTTP input plugin to receive HTTP request data
-Scenario: we configure logstash to receive HTTP request info which we want to enrich with WURFL data.
+Scenario: we configure logstash to receive HTTP request information that we want to enrich with WURFL data.
 
 ```
 input {
@@ -48,15 +46,15 @@ output {
 }
 ```
 
-Executing logstash:
+Let's run logstash:
 
 `./logstash -f <path_to_configuration>.conf>`
 
-and sending a HTTP request to its configured port (in this case 19080) like this (we just add user agent for simplicity):
+sending a HTTP request to its configured port (in this case 19080) like this (we just add the user-agent header for simplicity):
 
 `curl -H "User-Agent: Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3359.139 Mobile Safari/537.36" http://localhost:19080`
 
-and we'll get an output that looks like this:
+we'll get an output that looks like this:
   
   ```
 {
@@ -107,8 +105,7 @@ and we'll get an output that looks like this:
 
 ```
 
-The http input plugin receives an http request to the specified host and port, with a payload map that contains the HTTP headers
-to be analyzed by the WURFL plugin.
+The http input plugin receives an http request to the specified host and port, with a payload map that contains the HTTP headers that the WURFL plugin will analyze.
 Note that the `source` name is `headers`. Also note that you can configure the logstash input as you want,
 but if you want the WURFL plugin to work with headers, you must configure it so that it uses an header map.
 
@@ -123,8 +120,3 @@ but if you want the WURFL plugin to work with headers, you must configure it so 
 - `scheme` defines the connection scheme to use to connect to WURFL Microservice server (currently only HTTP is supported)
 - `host` host/ip address of the WURFL Microservice server (defaults to localhost)
 - `port` port of the WURFL Microservice server (defaults to 80)
-
-
-  
-    
-   

@@ -18,7 +18,7 @@ END - GENERATED VARIABLES, DO NOT EDIT!
 
 === Description
 
-The WURFL device detection filter adds information about a device's capabilities, using WURFL Microservice client.
+The WURFL device detection filter adds device information to HTTP requests through the WURFL API ( [WURFL Microservice client](https://www.scientiamobile.com/products/wurfl-microservice/)).
 
 [id="plugins-{type}s-{plugin}-options"]
 ==== WURFL device detection Filter Configuration Options
@@ -76,33 +76,32 @@ Defines whether `wurfl_info` string will be added to enriched output.
 * Value type is <<boolean,boolean>>
 * Default value is `false`
 
-Defines whether `wurfl_api_version` will be added to enriched output.
+Defines whether the `wurfl_api_version` will be added to enriched output.
 
 [id="plugins-{type}s-{plugin}-source"]
 ===== `source`
 
 * Value type is <<string,string>>
-* Default value is empty list
+* Default value is an empty list
 
-The field used by the filter plugin to get data for device detection. If input data is made of simple user-agents sent one by one,
-you can use the default value `"message"`, if the the input data is made of all HTTP headers, the source value must be `"headers"`.
+The filter plugin uses this field to identify which subset of the input data is used for device detection. Using default
+value `"headers"`, the system will use all HTTP headers to perform the detection.
 
 [id="plugins-{type}s-{plugin}-static_capabilities"]
 ===== `static_capabilities`
 
 * Value type is <<array,array>>
-* Default value is empty array which means *detect all static capabilities*
+* Default value is the empty array. This amounts to *detect all static capabilities* available.
 
-A list of WURFL static capabilities that must be detected in order to be added to the output. Default value is empty array,
-which means *detect all capabilities*.
+If a list of WURFL static capabilities is provided, only those will be added to the output.
 
 [id="plugins-{type}s-{plugin}-virtual_capabilities"]
 ===== `virtual_capabilities`
 
 * Value type is <<array,array>>
-* Default value is empty array which means *detect all virtual capabilities*
+* DDefault value is the empty array. This amounts to *detect all virtual capabilities* available.
 
-A list of WURFL virtual capabilities that must be detected in order to be added to the output.
+If a list of WURFL virtual capabilities is provided, only those will be added to the output.
 
 [id="plugins-{type}s-{plugin}-scheme"]
 ===== `scheme`
@@ -110,7 +109,7 @@ A list of WURFL virtual capabilities that must be detected in order to be added 
 * Value type is <<string,string>>
 * Default value is `"http"`
 
-Scheme used to connect to your WURFL Microservice server instance
+Protocol scheme used to connect to your WURFL Microservice server instance
 
 [id="plugins-{type}s-{plugin}-host"]
 ===== `host`
