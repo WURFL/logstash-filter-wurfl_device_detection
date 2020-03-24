@@ -3,6 +3,7 @@
 This project contains a java plugin for Logstash that enriches a stream of data with device data obtained from WURFL ([through WURFL Microservice Client, as deployed in one of multiple ways](https://www.scientiamobile.com/products/wurfl-microservice/)).
 
 This plugin requires Java 8+, Gradle 5.x or above and has been tested with Logstash 8.0.0 and 7.6.x
+It also requires a running instance of WURFL Microservice server, available on [AWS](https://aws.amazon.com/marketplace/search/results?x=26&y=17&searchTerms=WURFL), [Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps?search=WURFL&page=1) or as a [Docker container](https://www.scientiamobile.com/products/wurfl-microservice-docker-detect-device/)
 
 ## Compile the project
 
