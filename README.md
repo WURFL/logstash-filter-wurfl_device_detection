@@ -46,8 +46,7 @@ output {
   stdout { codec => rubydebug }
 }
 ```
-
-Let's run logstash:
+Start the WURFL Microservice server on AWS/Azure/Docker then, let's run logstash:
 
 `./logstash -f <path_to_configuration>.conf>`
 
