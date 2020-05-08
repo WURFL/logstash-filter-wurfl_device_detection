@@ -1,0 +1,35 @@
+=== `Logstash-filter-wurfl`
+
+ - This plugin was created and is maintained by a partner.
+
+ - https://github.com/WURFL/logstash-filter-wurfl/blob/master/CHANGELOG.md[CHANGELOG]
+
+===== `Installation`
+Please refer to installation instructions https://github.com/WURFL/logstash-filter-wurfl#install-the-plugin-on-logstash[here]. Also see https://www.elastic.co/guide/en/logstash/7.6/working-with-plugins.html[Working with plugins] for more details.
+
+===== `Description`
+
+This plugin uses https://www.scientiamobile.com/products/wurfl-microservice/[WURFL Microservice] to enrich logs with device information such as brand and model name, OS name and OS version, etc.
+
+WURFL by ScientiaMobile delivers highly accurate device information to enterprises that need to augment their business intelligence with a detailed understanding of end-users’ devices:
+
+
+- Web developers can offer separate user-experience to mobile and web users, or even a completely separate experience to users of SmartTVs and consoles.
+
+- Ad Tech companies can augment their platforms with device targeting, making their offering more compelling for advertisers.
+
+- Data Engineers can augment their understanding of their users with several properties related to their devices.
+
+- Event Stream platforms can use WURFL for device detection to identify certain classes of errors that only happen on specific devices or classes of devices.
+
+
+Integrate WURFL Device Detection capabilities into applications to enable use-cases such as: mobile optimization, targeted advertising, Event Streams analysis and device analytics.
+
+===== `Documentation`
+
+Documentation for the https://github.com/WURFL/logstash-filter-wurfl/blob/master/docs/index.asciidoc[Logstash-filter-wurfl] is maintained by the creators.
+
+===== `Getting Help`
+
+This is a third-party plugin. For bugs or feature requests, you can open an issue in the logstash-filter-wurfl Github repo.
+
