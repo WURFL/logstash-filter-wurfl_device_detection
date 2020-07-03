@@ -35,8 +35,7 @@ public class WurflDeviceDetection implements Filter {
         this.id = id;
         this.configuration = new Config(lconfig);
         initWmClient(configuration);
-        logger.error("TEST: WM CLIENT created");
-        logger.error("TEST ------------------------------ >>>");
+        logger.debug("WURFL microservice client created");
     }
 
     /*
@@ -122,8 +121,7 @@ public class WurflDeviceDetection implements Filter {
                 event.setField(TARGET_CONFIG, data);
             } catch (WmException e) {
                 // Just log and go on
-                logger.error("[WURFL Filter] " + e.getMessage());
-                e.printStackTrace();
+                logger.error("dropping event " + event.toString() + " due to " + e.getLocalizedMessage(), e);
             }
         });
 
