@@ -1,1 +1,2 @@
 - 0.3.0 - Initial release
+- 0.3.1 - Small logging improvements 
