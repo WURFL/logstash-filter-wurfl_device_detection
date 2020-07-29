@@ -11,7 +11,7 @@ group                      'com.scientiamobile.logstash' // must match the packa
 version                    "${file("VERSION").text.trim()}" // read from required VERSION file
 description                = "Filter that augments stream with WURFL device detection data"
 pluginInfo.licenses        = ['Apache-2.0'] // list of SPDX license IDs
-pluginInfo.longDescription = "This gem is a Logstash plugin that augments stream with WURFL device detection data and is required to be installed on top of the Logstash core pipeline using \$LS_HOME/bin/logstash-plugin install gemname. This gem is not a stand-alone program"
+pluginInfo.longDescription = "This gem is a Logstash plugin that augments stream with WURFL device detection data and is required to be installed on top of the Logstash core pipeline using \$LS_HOME/bin/logstash-plugin install gemname. This gem is not a stand-alone program. \n Please note that this plugin requires a running instance of WURFL Microservice (https://www.scientiamobile.com/products/wurfl-microservice)"
 pluginInfo.authors         = ['ScientiaMobile Inc.']
 pluginInfo.email           = ['info@scientiamobile.com']
 pluginInfo.homepage        = "http://www.scientiamobile.com"
