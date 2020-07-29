@@ -1,3 +1,5 @@
+- 0.3.3 - Better description of WM pre requisites in rubygem.org deploy
+
 - 0.3.2 - Fixed wrong info in build file
 
 - 0.3.1 - Small logging improvements
