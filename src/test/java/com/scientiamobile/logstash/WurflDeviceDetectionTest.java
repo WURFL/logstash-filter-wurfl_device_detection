@@ -58,7 +58,7 @@ public class WurflDeviceDetectionTest {
         testConfig.put("port", testPort);
 
         Configuration config = new ConfigurationImpl(testConfig);
-        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config);
+        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config, null);
 
         // Create mock event
         Event e = new org.logstash.Event();
@@ -100,7 +100,7 @@ public class WurflDeviceDetectionTest {
         testConfig.put("port", testPort);
 
         Configuration config = new ConfigurationImpl(testConfig);
-        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config);
+        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config, null);
 
         // Create mock event
         Event e = new org.logstash.Event();
@@ -138,7 +138,7 @@ public class WurflDeviceDetectionTest {
         testConfig.put("port", testPort);
 
         Configuration config = new ConfigurationImpl(testConfig);
-        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config);
+        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config, null);
 
         // Create mock event
         Event e = new org.logstash.Event();
@@ -176,7 +176,7 @@ public class WurflDeviceDetectionTest {
         testConfig.put("inject_wurfl_id", "false"); // we need to specify this because default is true
 
         Configuration config = new ConfigurationImpl(testConfig);
-        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config);
+        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config, null);
 
         // Create mock event
         Event e = new org.logstash.Event();
@@ -209,7 +209,7 @@ public class WurflDeviceDetectionTest {
         testConfig.put("source", "headers");
 
         Configuration config = new ConfigurationImpl(testConfig);
-        new WurflDeviceDetection("test_id", config);
+        new WurflDeviceDetection("test_id", config, null);
     }
 
     @Test
@@ -221,7 +221,7 @@ public class WurflDeviceDetectionTest {
         testConfig.put("port", testPort);
 
         Configuration config = new ConfigurationImpl(testConfig);
-        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config);
+        WurflDeviceDetection filter = new WurflDeviceDetection("test_id", config, null);
 
         // Create mock event
         Event e = new org.logstash.Event();

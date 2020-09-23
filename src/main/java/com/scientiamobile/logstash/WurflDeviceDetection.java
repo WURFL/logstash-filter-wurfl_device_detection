@@ -1,11 +1,6 @@
 package com.scientiamobile.logstash;
 
-import co.elastic.logstash.api.Configuration;
-import co.elastic.logstash.api.Event;
-import co.elastic.logstash.api.Filter;
-import co.elastic.logstash.api.FilterMatchListener;
-import co.elastic.logstash.api.LogstashPlugin;
-import co.elastic.logstash.api.PluginConfigSpec;
+import co.elastic.logstash.api.*;
 import com.scientiamobile.wurfl.wmclient.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +25,10 @@ public class WurflDeviceDetection implements Filter {
     private final Config configuration;
     private String id;
     private WmClient wmClient;
+
+    public WurflDeviceDetection(String id, Configuration lconfig, Context ctx) {
+        this(id, lconfig);
+    }
 
     public WurflDeviceDetection(String id, Configuration lconfig) {
         this.id = id;
@@ -58,9 +57,10 @@ public class WurflDeviceDetection implements Filter {
     }
 
     /**
-     * Extracts the HTTP request headers and uses them to query the WURFL Microserive server to get device detection information, which are added
+     * Extracts the HTTP request headers and uses them to query the WURFL Microservice server to get device detection information, which are added
      * to the event output data.
-     * @param collection a collection of events
+     *
+     * @param collection          a collection of events
      * @param filterMatchListener this is unused
      * @return the collection of events, enriched with device detection data
      */
@@ -80,45 +80,38 @@ public class WurflDeviceDetection implements Filter {
                 }
 
                 Model.JSONDeviceData tdevice = null;
+                final List<Model.JSONDeviceData> tdevices = new ArrayList<>();
+
+                // We usually get a Map when a single event is sent
                 if (o instanceof Map) {
                     HttpServletRequest req = new HttpServletRequestWrapper((Map) o);
                     tdevice = wmClient.lookupRequest(req);
+                    final Model.JSONDeviceData device = tdevice;
+                    // Device can be null if WM server version is < 2.1.0
+                    if (device == null) {
+                        event.tag(TAG_PARSE_FAILURE);
+                        return;
+                    }
+                    Map<String, String> data = fillDataMap(info, device);
+                    event.setField(TARGET_CONFIG, data);
+                    // We usually get an ArrayList when we get an array or set of events
+                } else if (o instanceof ArrayList) {
+                    final List<Map<String, String>> dataMaps = new ArrayList<>();
+                    ArrayList<Map> maps = (ArrayList<Map>) o;
+                    for (Map m : maps) {
+                        HttpServletRequest req = new HttpServletRequestWrapper((Map) m.get("headers"));
+                        tdevice = wmClient.lookupRequest(req);
+                        if (tdevice == null) {
+                            continue;
+                        }
+                        tdevices.add(tdevice);
+                        dataMaps.add(fillDataMap(info, tdevice));
+                    }
+                    event.setField(TARGET_CONFIG, dataMaps);
                 } else {
-                    logger.error("Message source name  [" + configuration.getSource() + "] is not of type String or Map, check your plugin configuration");
+                    logger.error("Input object type: " + o.getClass().getCanonicalName());
+                    logger.error("Message source name  [" + configuration.getSource() + "] is not of type ArrayList or Map, check your plugin configuration");
                 }
-
-                final Model.JSONDeviceData device = tdevice;
-                // Device can be null if WM server version is < 2.1.0
-                if (device == null) {
-                    event.tag(TAG_PARSE_FAILURE);
-                    return;
-                }
-
-                // Device has been detected, let's collect device info and capabilities
-                Map<String, String> data = new HashMap<>();
-                if (configuration.getInjectWurflId()) {
-                    data.put(WURFL_ID, device.capabilities.get(WURFL_ID));
-                }
-
-                if (configuration.getInjectWurflInfo()) {
-                    data.put(WURFL_INFO, info.getWurflInfo());
-                }
-
-                if (configuration.getInjectWurflApiVersion()) {
-                    data.put(WURFL_API_VERSION, info.getWurflApiVersion());
-                }
-
-                // Add capabilities to data
-                if (configuration.getInjectWurflId()) {
-                    device.capabilities.keySet().forEach(name -> {
-                        data.put(name, device.capabilities.get(name));
-                    });
-                } else { // inject_wurfl_id not enabled, we filter it from capability list
-                    device.capabilities.keySet().stream().filter(name -> !"wurfl_id".equals(name)).forEach(name -> {
-                        data.put(name, device.capabilities.get(name));
-                    });
-                }
-                event.setField(TARGET_CONFIG, data);
             } catch (WmException e) {
                 // Just log and go on
                 logger.error("dropping event " + event.toString() + " due to " + e.getLocalizedMessage(), e);
@@ -126,6 +119,34 @@ public class WurflDeviceDetection implements Filter {
         });
 
         return collection;
+    }
+
+    private Map<String, String> fillDataMap(Model.JSONInfoData info, Model.JSONDeviceData device) {
+        // Device has been detected, let's collect device info and capabilities
+        Map<String, String> data = new HashMap<>();
+        if (configuration.getInjectWurflId()) {
+            data.put(WURFL_ID, device.capabilities.get(WURFL_ID));
+        }
+
+        if (configuration.getInjectWurflInfo()) {
+            data.put(WURFL_INFO, info.getWurflInfo());
+        }
+
+        if (configuration.getInjectWurflApiVersion()) {
+            data.put(WURFL_API_VERSION, info.getWurflApiVersion());
+        }
+
+        // Add capabilities to data
+        if (configuration.getInjectWurflId()) {
+            device.capabilities.keySet().forEach(name -> {
+                data.put(name, device.capabilities.get(name));
+            });
+        } else { // inject_wurfl_id not enabled, we filter it from capability list
+            device.capabilities.keySet().stream().filter(name -> !"wurfl_id".equals(name)).forEach(name -> {
+                data.put(name, device.capabilities.get(name));
+            });
+        }
+        return data;
     }
 
     @Override

@@ -1,3 +1,5 @@
+- 0.4.0 - now support for array of events
+
 - 0.3.4 - added gemspec file, fixed naming convention issues
 
 - 0.3.3 - Better description of WM pre requisites in rubygem.org deploy
