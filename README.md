@@ -46,15 +46,57 @@ output {
   stdout { codec => rubydebug }
 }
 ```
+
+The http input plugin receives an http request to the specified host and port, with a payload map that contains the HTTP headers that the WURFL plugin will analyze.
+Note that the `source` name is `headers`. Also note that you can configure the logstash input as you want,
+but if you want the WURFL plugin to work with headers, you must configure it so that it uses an header map.
+
 ### Example configuration - using JSON input and filter plugins to receive HTTP request data
 Scenario: we configure logstash to receive HTTP request information from one or more JSON files (needs logstash-filter-json plugin).
 
+```
+input {
+  file {
+    type => "json"
+    path => "<path to>/logstash-filter-wurfl/sample_input/kafka_events_mini.json"
+    start_position => "beginning"
+  }
+}
+filter {
+    json {
+    source => "message"
+}
+}
+filter {
+  wurfl_device_detection {
+    source => "message"
+    cache_size => 300000
+    inject_wurfl_id => true
+    inject_wurfl_info => false
+    inject_wurfl_api_version => false
+    # commenting the capabilities config, you get them all
+    #static_capabilities => ["model_name", "brand_name"]
+    #virtual_capabilities => ["form_factor"]
+    scheme => "http"
+    host => "localhost"
+    port => "8080"
+  }
+}
+output {
+  # you may choose whatever output you want
+  stdout { codec => rubydebug }
+}
+```
+
+Source field "message" is the root element of the json file
+
+### Starting logstash
 
 Start the WURFL Microservice server on AWS/Azure/Docker then, let's run logstash:
 
 `./logstash -f <path_to_configuration>.conf>`
 
-sending a HTTP request to its configured port (in this case 19080) like this (we just add the user-agent header for simplicity):
+in case you choose the HTTP input configuration, sending a HTTP request to its configured port (in this case 19080) like this (we just add the user-agent header for simplicity, but you can send all headers using the -H flag):
 
 `curl -H "User-Agent: Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD1.170816.004) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3359.139 Mobile Safari/537.36" http://localhost:19080`
 
@@ -109,9 +151,7 @@ we'll get an output that looks like this:
 
 ```
 
-The http input plugin receives an http request to the specified host and port, with a payload map that contains the HTTP headers that the WURFL plugin will analyze.
-Note that the `source` name is `headers`. Also note that you can configure the logstash input as you want,
-but if you want the WURFL plugin to work with headers, you must configure it so that it uses an header map.
+In case you chose the JSON input file configuration, logstash will automatically parse it and print the output.
 
 - `stdin` and `stdout` define which input and output plugin will be used:  in our scenario
  we use the HTTP input plugin, while we use the ruby debug console as output.
