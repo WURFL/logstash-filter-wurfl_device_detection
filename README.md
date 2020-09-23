@@ -46,6 +46,10 @@ output {
   stdout { codec => rubydebug }
 }
 ```
+### Example configuration - using JSON input and filter plugins to receive HTTP request data
+Scenario: we configure logstash to receive HTTP request information from one or more JSON files (needs logstash-filter-json plugin).
+
+
 Start the WURFL Microservice server on AWS/Azure/Docker then, let's run logstash:
 
 `./logstash -f <path_to_configuration>.conf>`
