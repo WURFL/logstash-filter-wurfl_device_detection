@@ -109,7 +109,8 @@ public class WurflDeviceDetection implements Filter {
                     }
                     event.setField(TARGET_CONFIG, dataMaps);
                 } else {
-                    logger.error("Message source name  [" + configuration.getSource() + "] is not of type String or Map, check your plugin configuration");
+                    logger.error("Input object type: " + o.getClass().getCanonicalName());
+                    logger.error("Message source name  [" + configuration.getSource() + "] is not of type ArrayList or Map, check your plugin configuration");
                 }
             } catch (WmException e) {
                 // Just log and go on
