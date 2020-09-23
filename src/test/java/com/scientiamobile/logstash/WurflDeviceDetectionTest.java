@@ -120,7 +120,7 @@ public class WurflDeviceDetectionTest {
             assertNotNull(targetMap.get("wurfl_api_version"));
             assertNotNull(targetMap.get("wurfl_info"));
             // When a list of capabilities is NOT specified, all of them are returned
-            assertTrue(targetMap.size() >= 10);
+            assertTrue(targetMap.size() >= 40);
         });
     }
 
@@ -159,7 +159,7 @@ public class WurflDeviceDetectionTest {
             assertNotNull(targetMap.get("wurfl_api_version"));
             assertNotNull(targetMap.get("wurfl_info"));
             // When a list of capabilities is NOT specified, all of them are returned
-            assertTrue(targetMap.size() >= 10);
+            assertTrue(targetMap.size() >= 40);
         });
     }
 
@@ -197,7 +197,7 @@ public class WurflDeviceDetectionTest {
             assertNull(targetMap.get("wurfl_info"));
             assertNull(targetMap.get("wurfl_id"));
             // When a list of capabilities is NOT specified, all of them are returned
-            assertTrue(targetMap.size() >= 10);
+            assertTrue(targetMap.size() >= 40);
         });
     }
 
@@ -241,7 +241,7 @@ public class WurflDeviceDetectionTest {
             assertNull(targetMap.get("wurfl_api_version"));
             assertNull(targetMap.get("wurfl_info"));
             // When a list of capabilities is NOT specified, all of them are returned
-            assertTrue(targetMap.size() >= 10);
+            assertTrue(targetMap.size() >= 40);
         });
 
         // Case two, an event with a different source name ("agent")
