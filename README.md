@@ -17,7 +17,7 @@ is the one defined in the `VERSION` file.
   From the logstash installation `bin` directory execute
   `./logstash-plugin install --local <plugin_project_home>/logstash-filter-logstash_filter_wurfl_device_detection-x.y.z.gem`
   
-  You can find a sample configuration for this plugin can be found under `sample_config/wurfl_filter_config_with_http_input`; you will want to create your own
+  You can find a sample configuration for this plugin under `sample_config/wurfl_filter_config_with_http_input`; you will want to create your own
   production configuration file using input and output plugins of your choice.
   
 ### Example configuration - using HTTP input plugin to receive HTTP request data
@@ -151,7 +151,7 @@ we'll get an output that looks like this:
 
 ```
 
-In case you chose the JSON input file configuration, logstash will automatically parse it and print the output.
+Logstash will automatically parse the JSON input file configuration and print out the following.
 
 - `stdin` and `stdout` define which input and output plugin will be used:  in our scenario
  we use the HTTP input plugin, while we use the ruby debug console as output.
